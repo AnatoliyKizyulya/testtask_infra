@@ -4,3 +4,5 @@ packages:
     - mlocate-0.26
     - vim
     - bash-completion
+    - jq
+    - mc

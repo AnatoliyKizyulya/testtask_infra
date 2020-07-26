@@ -1,11 +1,11 @@
 - name: Install packages
-    yum:
+  yum:
       name: "{{ item }}"
       state: present
-    loop: "{{ packages }}"
+  loop: "{{ packages }}"
 
 - name: Disable firewalld
-    service:
+  service:
       name: firewalld
       state: stopped
       enabled: no
@@ -29,3 +29,6 @@
   yum:
     name: minikube-latest.x86_64.rpm
     state: present
+
+- name: Run script installing helm
+  command: "bash -c ../templates/get_helm.sh"
