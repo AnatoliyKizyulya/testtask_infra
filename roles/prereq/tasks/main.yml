@@ -1,0 +1,33 @@
+---
+- name: Create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add jenkins user to groups
+  user:
+    append: yes
+    name: jenkins
+    groups:
+      - docker
+      - wheel
+
+- name: Get number latest kubectl release
+  uri:
+    url: "https://storage.googleapis.com/kubernetes-release/release/stable.txt"
+    return_content: yes
+  register: kubectl_version
+
+- name: Download minikube and kubectl packages
+  get_url:
+    url: "{{item.url}}"
+    dest: "{{item.dest}}"
+    mode: "{{item.mode}}"
+  loop:
+    - {url: "https://storage.googleapis.com/minikube/releases/latest/minikube-latest.x86_64.rpm", dest: ".", mode: 644}
+    - {url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version.content | replace('\n', '') }}/bin/linux/amd64/kubectl", dest: "/bin/kubectl", mode: 777}
+
+- name: Install minikube package
+  yum:
+    name: minikube-latest.x86_64.rpm
+    state: present

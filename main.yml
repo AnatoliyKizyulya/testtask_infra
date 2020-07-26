@@ -1,0 +1,44 @@
+---
+- name: Install ping-pong service
+  hosts: localhost
+  become: true
+  vars:
+    jenkins_http_port: 8081
+    jenkins_process_user: tolik
+    jenkins_plugins: 
+      - blueocean
+      - git
+      - Docker
+      - "Authorize Project"
+      - kubernetes:1.15.5
+      - workflow-aggregator:2.6
+      - workflow-job:2.32
+      - credentials-binding:1.18
+      - greenballs:1.15
+      - role-strategy:2.9.0
+      - locale:1.4
+    docker_users:
+      - jenkins
+
+  tasks:
+    - name: Install Jenkins
+      include_role: 
+        name: geerlingguy.jenkins
+        apply:
+          tags: jenkins
+      tags: jenkins
+    
+    - name: Install Docker
+      include_role: 
+        name: geerlingguy.docker
+        apply:
+          tags: docker
+      tags: docker
+
+    - name: Install tools
+      include_role: 
+        name: prereq
+        apply:
+          tags: prereq
+      tags: prereq
+    
