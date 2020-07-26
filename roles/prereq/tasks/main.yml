@@ -31,4 +31,4 @@
     state: present
 
 - name: Run script installing helm
-  command: "bash -c ../templates/get_helm.sh"
+  command: "bash -c './roles/prereq/templates/get_helm.sh'"

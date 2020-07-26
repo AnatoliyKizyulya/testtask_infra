@@ -6,3 +6,4 @@ packages:
     - bash-completion
     - jq
     - mc
+    - python2-jenkins
