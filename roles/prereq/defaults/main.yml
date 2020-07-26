@@ -1,2 +1,6 @@
 ---
-# defaults file for roles/prereq
+packages:
+    - tree-1.6.0
+    - mlocate-0.26
+    - vim
+    - bash-completion

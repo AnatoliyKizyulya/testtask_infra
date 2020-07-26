@@ -4,7 +4,7 @@
   become: true
   vars:
     jenkins_http_port: 8081
-    jenkins_process_user: tolik
+    jenkins_process_user: jenkins
     jenkins_plugins: 
       - blueocean
       - git
@@ -21,6 +21,13 @@
       - jenkins
 
   tasks:
+    - name: Install tools
+      include_role: 
+        name: prereq
+        apply:
+          tags: prereq
+      tags: prereq
+    
     - name: Install Jenkins
       include_role: 
         name: geerlingguy.jenkins
@@ -35,10 +42,5 @@
           tags: docker
       tags: docker
 
-    - name: Install tools
-      include_role: 
-        name: prereq
-        apply:
-          tags: prereq
-      tags: prereq
+
     
